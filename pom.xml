@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.5.6</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>api-demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>api-demo</name>
+  <description>Demo project for Spring Boot</description>
+  <properties>
+    <java.version>11</java.version>
+    <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
+    <springfox-version>3.0.0</springfox-version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!--OAS dependencies -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${jackson-databind-nullable-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <!-- end-->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.1.4</version>
+        <configuration>
+          <to>
+            <image>docker.io/shanelee007/demo-api-oas</image>
+          </to>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <!-- RELEASE_VERSION -->
+        <version>5.3.0</version>
+        <!-- /RELEASE_VERSION -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/oas3.yaml</inputSpec>
+              <generatorName>spring</generatorName>
+              <!-- <output>${generated-sources-path}</output> -->
+              <apiPackage>com.example.apidemo.api</apiPackage>
+              <modelPackage>com.example.apidemo.api.model</modelPackage>
+              <generateModelTests>false</generateModelTests>
+              <generateApiTests>false</generateApiTests>
+              <generateSupportingFiles>true</generateSupportingFiles>
+              <apiFirst>true</apiFirst>
+              <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+              <useSwaggerAnnotations>false</useSwaggerAnnotations>
+              <generateApiDocumentation>false</generateApiDocumentation>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <!-- <modelsToGenerate>Consent,ExtendedError,BasicError,Nomination,Error</modelsToGenerate> -->
+              <skip>false</skip>
+              <!-- <ignoreFileOverride>${project.basedir}/src/main/resources/.openapi-generator-ignore</ignoreFileOverride> -->
+              <configOptions>
+                <sourceFolder>src/main/java</sourceFolder>
+                <delegatePattern>true</delegatePattern>
+                <!-- <performBeanValidation>true</performBeanValidation> -->
+                <!-- <useBeanValidation>true</useBeanValidation> -->
+                <dateLibrary>java8</dateLibrary>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <!-- <skipDefaultInterface>true</skipDefaultInterface> -->
+                <!-- <interfaceOnly>true</interfaceOnly> -->
+                <!-- <unhandledException>true</unhandledException> -->
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
